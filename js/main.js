@@ -41,9 +41,18 @@ window.addEventListener('scroll', () => {
 // ── Mobile Menu ──
 const menuToggle = document.getElementById('menuToggle');
 const navLinks = document.getElementById('navLinks');
-menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+function toggleMenu(forceClose = false) {
+  const isOpen = forceClose ? false : navLinks.classList.toggle('open');
+  if (forceClose) navLinks.classList.remove('open');
+  
+  menuToggle.textContent = isOpen ? '✕' : '☰';
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+menuToggle.addEventListener('click', () => toggleMenu());
 navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'));
+  a.addEventListener('click', () => toggleMenu(true));
 });
 
 // ── Reveal on Scroll ──
